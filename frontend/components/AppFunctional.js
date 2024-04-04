@@ -5,8 +5,8 @@ import axios from 'axios'
 // Suggested initial states
 const initialMessage = ''
 const initialEmail = ''
-const initialSteps = 0
-const initialIndex = 4 // the index the "B" is at
+// const initialSteps = 0
+// const initialIndex = 4 // the index the "B" is at
 
 const URL = 'http://localhost:9000/api/result'
 
@@ -15,33 +15,34 @@ export default function AppFunctional(props) {
   // You can delete them and build your own logic from scratch.
   const [message, setMessage] = useState(initialMessage)
   const [email, setEmail] = useState(initialEmail)
-  const [steps, setSteps] = useState(initialSteps)
-  const [index, setIndex] = useState(initialIndex)
+  // const [steps, setSteps] = useState(initialSteps)
+  // const [index, setIndex] = useState(initialIndex)
   const [activeSquare, setActiveSquare] = useState([1, 1])
   const [moves, setMoves] = useState(0)
 
 
 
-  function getXY() {
-    // It it not necessary to have a state to track the coordinates.
-    // It's enough to know what index the "B" is at, to be able to calculate them.
+  // function getXY() {
+  //   // It it not necessary to have a state to track the coordinates.
+  //   // It's enough to know what index the "B" is at, to be able to calculate them.
     
-  }
+  // }
 
   function getXYMessage() {
     // It it not necessary to have a state to track the "Coordinates (2, 2)" message for the user.
     // You can use the `getXY` helper above to obtain the coordinates, and then `getXYMessage`
     // returns the fully constructed string.
-    return `You moved ${moves} times`;
+    return `${email} moved ${moves} times`;
   }
+    
 
   function reset() {
     // Use this helper to reset all states to their initial values.
     setMessage(initialMessage);
     setEmail(initialEmail);
-    setSteps(initialSteps);
-    setIndex(initialIndex);
-    setActiveSquare([2, 2]);
+    // setSteps(initialSteps);
+    // setIndex(initialIndex);
+    setActiveSquare([1, 1]);
     setMoves(0);
   }
 
@@ -59,10 +60,10 @@ export default function AppFunctional(props) {
         nextY = Math.max(0, y - 1);
         break;
       case 'right':
-        nextX = Math.min(8, x + 1);
+        nextX = Math.min(2, x + 1);
         break;
       case 'down':
-        nextY = Math.min(8, y + 1);
+        nextY = Math.min(2, y + 1);
         break;
         default:
         break;
@@ -92,14 +93,17 @@ export default function AppFunctional(props) {
   function onSubmit(evt) {
     // Use a POST request to send a payload to the server.
     evt.preventDefault();
+    const emailInput = evt.target.elements.email.value;
     axios.post(URL, {
       x: activeSquare[0],
       y: activeSquare[1],
       steps: moves, 
-      email: email,
+      email: emailInput,
      })
      .then((response) => {
       console.log(response.data);
+      setMessage(`${emailInput} moved ${moves} times`)
+      setEmail('');
      })
      .catch((error) => {
       console.error("Error:", error);
@@ -132,7 +136,7 @@ export default function AppFunctional(props) {
         <button id="reset" onClick={reset}>reset</button>
       </div>
       <form onSubmit={onSubmit}>
-        <input id="email" type="email" placeholder="type email" onChange={onChange}></input>
+        <input id="email" type="email" placeholder="type email" onChange={onChange} value={email}></input>
         <input id="submit" type="submit"></input>
       </form>
     </div>
