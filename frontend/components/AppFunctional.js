@@ -17,7 +17,7 @@ export default function AppFunctional(props) {
   const [email, setEmail] = useState(initialEmail)
   // const [steps, setSteps] = useState(initialSteps)
   // const [index, setIndex] = useState(initialIndex)
-  const [activeSquare, setActiveSquare] = useState([1, 1])
+  const [activeSquare, setActiveSquare] = useState([2, 2])
   const [moves, setMoves] = useState(0)
 
 
@@ -42,7 +42,7 @@ export default function AppFunctional(props) {
     setEmail(initialEmail);
     // setSteps(initialSteps);
     // setIndex(initialIndex);
-    setActiveSquare([1, 1]);
+    setActiveSquare([2, 2]);
     setMoves(0);
   }
 
@@ -74,7 +74,17 @@ export default function AppFunctional(props) {
     // let up = (x, y - 1);
     // let down = (x, y + 1);
   }
+  // if (initialIndex && direction == "up") {
+  //   setIndex(1)
+  // }
+  // if ()
 
+
+  //0 1 2
+  //3 4 5
+  //6 7 8
+
+  
   function move(direction) {
     // This event handler can use the helper above to obtain a new index for the "B",
     // and change any states accordingly.
@@ -120,6 +130,8 @@ export default function AppFunctional(props) {
         {
           [0, 1, 2, 3, 4, 5, 6, 7, 8].map(idx => (
             <div key={idx} className={`square${activeSquare[0] === idx % 3 && activeSquare[1] === Math.floor(idx / 3) ? ' active' : ''}`}>
+            {/* // <div key={idx} className={activeSquare ? 'active' : ''} >
+            //   {activeSquare ? 'B' : null } */}
               {activeSquare[0] === idx % 3 && activeSquare[1] === Math.floor(idx / 3) ? 'B' : null}
             </div>
           ))
