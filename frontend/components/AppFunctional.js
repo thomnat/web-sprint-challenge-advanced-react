@@ -78,14 +78,27 @@ export default function AppFunctional(props) {
     let nextY = activeSquare[1];
 
     if (direction === "left") {
-      nextX = nextX === 0 ? nextX : nextX - 1;
+      if (nextX === 0) {
+        return "You can't go left"
+      }
+      nextX--;
     } else if (direction === "right") {
-      nextX = nextX === 8 ? nextX : nextX + 1;
+      if (nextX === 0) {
+        return "You can't go up";
+      }
+      nextX++;
     } else if (direction === "up") {
-      nextY = nextY < 4 ? nextY : nextY - 4;
+      if (nextY === 0) {
+        return "You can't go up";
+      }
+      nextY--;
     } else if (direction === "down") {
-      nextY = nextY >= 4 ? nextY : nextY + 4;
+      if (nextY === 2) {
+        return "You can't go down";
+      }
+      nextY++;
     }
+
     setActiveSquare([nextX, nextY]);
     setCurrentIndex(nextIndex);
 
