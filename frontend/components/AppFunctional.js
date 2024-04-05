@@ -94,8 +94,8 @@ export default function AppFunctional(props) {
   function move(direction) {
     // This event handler can use the helper above to obtain a new index for the "B",
     // and change any states accordingly.
-    const [nextX, nextY] = getNextIndex(currentIndex, direction);
-    setActiveSquare([nextX, nextY]);
+    const nextIndex = getNextIndex(currentIndex, direction);
+    setCurrentIndex(nextIndex);
     setMoves(moves + 1);
   }
 
