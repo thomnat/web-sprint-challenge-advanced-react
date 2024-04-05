@@ -6,7 +6,7 @@ import axios from 'axios'
 const initialMessage = ''
 const initialEmail = ''
 // const initialSteps = 0
-// const initialIndex = 4 // the index the "B" is at
+const initialIndex = 4 // the index the "B" is at
 
 const URL = 'http://localhost:9000/api/result'
 
@@ -16,7 +16,7 @@ export default function AppFunctional(props) {
   const [message, setMessage] = useState(initialMessage)
   const [email, setEmail] = useState(initialEmail)
   // const [steps, setSteps] = useState(initialSteps)
-  // const [index, setIndex] = useState(initialIndex)
+  const [currentIndex, setCurrentIndex] = useState(initialIndex)
   const [activeSquare, setActiveSquare] = useState([2, 2])
   const [moves, setMoves] = useState(0)
 
@@ -41,12 +41,12 @@ export default function AppFunctional(props) {
     setMessage(initialMessage);
     setEmail(initialEmail);
     // setSteps(initialSteps);
-    // setIndex(initialIndex);
+    setCurrentIndex(initialIndex);
     setActiveSquare([2, 2]);
     setMoves(0);
   }
 
-  function getNextIndex(direction) {
+  function getNextIndex(currentIndex, direction) {
     // This helper takes a direction ("left", "up", etc) and calculates what the next index
     // of the "B" would be. If the move is impossible because we are at the edge of the grid,
     // this helper should return the current index unchanged.
@@ -72,59 +72,29 @@ export default function AppFunctional(props) {
   //   // let left = (x - 1, y);
   //   // let right = (x + 1, y);
   //   // let up = (x, y - 1);
-  //   // let down = (x, y + 1);
-  // }
-  if (activeSquare[0] === 2 && activeSquare[1] === 2 && direction === "up") {
-    setActiveSquare([0, 1]);
-  } else if (activeSquare[0] === 0 && activeSquare[1] === 1 && direction === 'left') {
-    setActiveSquare([0, 0]);
-  } else if (activeSquare[0] === 0 && activeSquare[1] === 0  && (direction === 'left' || direction === 'up')) {
-    setActiveSquare([0, 0]);
-} else if (activeSquare[0] === 0 && activeSquare[1] === 0 && direction === 'right') {
-  setActiveSquare([0, 1]);
-} else if (activeSquare[0] === 0 && activeSquare[1] === 1 && direction === 'right') {
-  setActiveSquare([0, 2]);
-} else if (activeSquare[0] === 0 && activeSquare[1] === 2 && direction === 'down') {
-  setActiveSquare([0, 5]);
-} else if (activeSquare[0] === 0 && activeSquare[1] === 5 && direction === 'down') {
-  setActiveSquare([0, 6]);
-} else if (activeSquare[0] === 0 && activeSquare[1] === 6 && direction === 'down') {
-  setActiveSquare([0, 7]);
-} else if (activeSquare[0] === 0 && activeSquare[1] === 7 && direction === 'down') {
-  setActiveSquare([1, 7]);
-} else if (activeSquare[0] === 1 && activeSquare[1] === 7 && direction === 'right') {
-  setActiveSquare([2, 7]);
-} else if (activeSquare[0] === 2 && activeSquare[1] === 7 && direction === 'down') {
-  setActiveSquare([5, 7]);
-} else if (activeSquare[0] === 5 && activeSquare[1] === 7 && direction === 'left') {
-  setActiveSquare([5, 6]);
-} else if (activeSquare[0] === 5 && activeSquare[1] === 6 && direction === 'left') {
-  setActiveSquare([5, 5]);
-} else if (activeSquare[0] === 5 && activeSquare[1] === 5 && direction === 'up') {
-  setActiveSquare([4, 5]);
-} else if (activeSquare[0] === 4 && activeSquare[1] === 5 && direction === 'up') {
-  setActiveSquare([3, 5]);
-} else if (activeSquare[0] === 3 && activeSquare[1] === 5 && direction === 'right') {
-  setActiveSquare([3, 6]);
-} else if (activeSquare[0] === 3 && activeSquare[1] === 6 && direction === 'right') {
-  setActiveSquare([3, 7]);
-} else if (activeSquare[0] === 3 && activeSquare[1] === 7 && direction === 'down') {
-  setActiveSquare([4, 7]);
-} else if (activeSquare[0] === 4 && activeSquare[1] === 7 && direction === 'down') {
-  setActiveSquare([5, 7]);
-} else if (activeSquare[0] === 5 && activeSquare[1] === 7 && direction === 'right') {
-  setActiveSquare([5, 7]);
-}
-  }
+  //   // let down = (x, y + 1);  }
   //0 1 2
   //3 4 5
   //6 7 8
+  let nextIndex = currentIndex;
 
-  
+    if (direction === 'left') {
+      nextIndex = currentIndex === 0 ? currentIndex : currentIndex - 1;
+    } else if (direction === 'right') {
+      nextIndex = currentIndex === 8 ? currentIndex : currentIndex + 1;
+    } else if (direction === 'up') {
+      nextIndex = currentIndex < 4 ? currentIndex : currentIndex - 4;
+    } else if (direction === 'down') {
+      nextIndex = currentIndex >= 4 ? currentIndex : currentIndex + 4;
+    }
+    setCurrentIndex(nextIndex);
+    return nextIndex;
+
+  }
   function move(direction) {
     // This event handler can use the helper above to obtain a new index for the "B",
     // and change any states accordingly.
-    const [nextX, nextY] = getNextIndex(direction);
+    const [nextX, nextY] = getNextIndex(currentIndex, direction);
     setActiveSquare([nextX, nextY]);
     setMoves(moves + 1);
 
