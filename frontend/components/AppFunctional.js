@@ -74,18 +74,21 @@ export default function AppFunctional(props) {
     //3 4 5
     //6 7 8
     let nextIndex = currentIndex;
+    let nextX = activeSquare[0];
+    let nextY = activeSquare[1];
 
     if (direction === "left") {
-      nextIndex = currentIndex === 0 ? currentIndex : currentIndex - 1;
+      nextX = nextX === 0 ? nextX : nextX - 1;
     } else if (direction === "right") {
-      nextIndex = currentIndex === 8 ? currentIndex : currentIndex + 1;
+      nextX = nextX === 8 ? nextX : nextX + 1;
     } else if (direction === "up") {
-      nextIndex = currentIndex < 4 ? currentIndex : currentIndex - 4;
+      nextY = nextY < 4 ? nextY : nextY - 4;
     } else if (direction === "down") {
-      nextIndex = currentIndex >= 4 ? currentIndex : currentIndex + 4;
+      nextY = nextY >= 4 ? nextY : nextY + 4;
     }
-    setActiveSquare(nextIndex);
+    setActiveSquare([nextX, nextY]);
     setCurrentIndex(nextIndex);
+    
     return nextIndex;
   }
   function move(direction) {
