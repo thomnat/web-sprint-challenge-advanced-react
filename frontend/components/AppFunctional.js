@@ -30,7 +30,7 @@ export default function AppFunctional(props) {
     // It it not necessary to have a state to track the "Coordinates (2, 2)" message for the user.
     // You can use the `getXY` helper above to obtain the coordinates, and then `getXYMessage`
     // returns the fully constructed string.
-    return `${email} moved ${moves} times`;
+    return `You moved ${moves} times`;
   }
 
   function reset() {
@@ -83,7 +83,7 @@ export default function AppFunctional(props) {
       }
       nextX--;
     } else if (direction === "right") {
-      if (nextX === 0) {
+      if (nextX === 2) {
         return "You can't go up";
       }
       nextX++;
