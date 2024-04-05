@@ -19,7 +19,7 @@ export default function AppFunctional(props) {
   const [index, setIndex] = useState(initialIndex);
  
 
-  function getXY() {
+  function getXY(index) {
     //There are multiples ways of doing the logic for that, but yes. For example: if we are looking for y (which is our row) we can know that it is in the first row if the index number is less than 3 since the top row would be either 0, 1, or 2 for the top row. But that is just one way of doing it.
     //So gexXY is going to get the coordinates from the index and getXYMessage will get the coordinates it needs to print from the getXY function.
   //   // It it not necessary to have a state to track the coordinates.
@@ -51,8 +51,8 @@ export default function AppFunctional(props) {
     // It it not necessary to have a state to track the "Coordinates (2, 2)" message for the user.
     // You can use the `getXY` helper above to obtain the coordinates, and then `getXYMessage`
     // returns the fully constructed string.
-    setMessage("Coordinates", getXY() `You moved ${steps} times`);
-    return message;
+    const [x, y] = getXY(index);
+    return `Coordinates (${x}, ${y}) - You moved ${steps} times`;
   }
 
   function reset() {
@@ -61,8 +61,6 @@ export default function AppFunctional(props) {
     setEmail(initialEmail);
     setSteps(initialSteps);
     setIndex(initialIndex);
-   
-    
   }
 
   function getNextIndex(direction) {
@@ -72,14 +70,41 @@ export default function AppFunctional(props) {
     //Then get next index will decide what number move should be changing the index to.
     //If it shouldn't go up any higher then getNextIndex doesn't change the current index number otherwise it adjusts it based on the direction you are trying to go.
     //For example, if you want to move left, that would be one index number lower if you're not at the start of that row already.
-    
+    const [currentX, currentY] = getXY(index);
+
+    let nextX = currentX;
+    let nextY = currentY;
+
+    if (direction === 'left' && currentX > 1) {
+      nextX--;
+    } else if (direction === 'right' && currentX < 3) {
+      nextX++;
+    } else if (direction === 'up' && currentY > 1) {
+      nextY--;
+    } else if (direction === 'down' && currentY < 3) {
+      nextY++;
+    }
+
+    let nextIndex = (nextY - 1) * 3 + nextX - 1;
+    return nextIndex;
+
   }
 
   function move(direction) {
     // This event handler can use the helper above to obtain a new index for the "B",
     // and change any states accordingly.
     //Then when you go to move, you will need to update index, the number of steps, and the message. That is a good place to have it update "you can't go this direction". and you would interpolate the specific direction
-  
+    const nextIndex = getNextIndex(direction);
+
+    if (nextIndex != index) {
+      setIndex(nextIndex);
+      
+      setSteps(steps + 1);
+
+      setMessage(`You moved ${steps} times.`);
+    } else {
+      setMessage(`You can't go ${direction}.`);
+    }
   }
 
   function onChange(evt) {
@@ -92,16 +117,17 @@ export default function AppFunctional(props) {
     // Use a POST request to send a payload to the server.
     evt.preventDefault();
     const emailInput = evt.target.elements.email.value;
+    const [currentX, currentY] = getXY(index);
     axios
       .post(URL, {
-        x: activeSquare[0],
-        y: activeSquare[1],
-        steps: moves,
+        x: currentX,
+        y: currentY,
+        steps: steps,
         email: emailInput,
       })
       .then((response) => {
         console.log(response.data);
-        setMessage(`${emailInput} moved ${moves} times`);
+        setMessage(`You moved ${steps} times`);
         setEmail("");
       })
       .catch((error) => {
@@ -113,23 +139,19 @@ export default function AppFunctional(props) {
     <div id="wrapper" className={props.className}>
       <div className="info">
         <h3 id="coordinates">
-          Coordinates ({activeSquare[0]}, {activeSquare[1]})
+          {getXYMessage()}
         </h3>
-        <h3 id="steps">{getXYMessage()}</h3>
+        <h3 id="steps">{message}</h3>
       </div>
       <div id="grid">
         {[0, 1, 2, 3, 4, 5, 6, 7, 8].map((idx => (
           <div
           key={idx}
-          className={`square${activeSquare[0] === idx % 3 && Math.floor(activeSquare[0] / 3) === Math.floor(idx / 3) ? ' active' : ''}`}
+          className={`square${getXY(idx)[0] === getXY(index)[0] && getXY(idx)[1] === getXY(index)[1] ? ' active' : ''}`}
           >
-          {activeSquare[0] === idx % 3 && Math.floor(activeSquare[0] / 3) === Math.floor(idx / 3) && 'B'}
+          {getXY(idx)[0] === getXY(index)[0] && getXY(idx)[1] === getXY(index)[1] && 'B'}
           </div>
         )))}
-          
-        
-          
-        
       </div>
       <div className="info">
         <h3 id="message">{message}</h3>
