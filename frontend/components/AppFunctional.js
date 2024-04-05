@@ -152,9 +152,9 @@ export default function AppFunctional(props) {
         {[0, 1, 2, 3, 4, 5, 6, 7, 8].map((idx => (
           <div
           key={idx}
-          className={`square${activeSquare[0] === idx % 3 && activeSquare[1] === Math.floor(idx / 3) ? ' active' : ''}`}
+          className={`square${activeSquare[0] === idx % 3 && Math.floor(activeSquare[1] / 3) === Math.floor(idx / 3) ? ' active' : ''}`}
           >
-          {activeSquare[0] === idx % 3 && activeSquare[1] === Math.floor(idx / 3) && 'B'}
+          {activeSquare[0] === idx % 3 && Math.floor(activeSquare[1] / 3) === Math.floor(idx / 3) && 'B'}
           </div>
         )))}
           
