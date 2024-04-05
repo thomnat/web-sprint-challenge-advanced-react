@@ -88,7 +88,7 @@ export default function AppFunctional(props) {
     }
     setActiveSquare([nextX, nextY]);
     setCurrentIndex(nextIndex);
-    
+
     return nextIndex;
   }
   function move(direction) {
@@ -135,24 +135,18 @@ export default function AppFunctional(props) {
         <h3 id="steps">{getXYMessage()}</h3>
       </div>
       <div id="grid">
-        {[0, 1, 2, 3, 4, 5, 6, 7, 8].map((idx) => (
+        {[0, 1, 2, 3, 4, 5, 6, 7, 8].map((idx => (
           <div
-            key={idx}
-            className={`square${
-              activeSquare[0] === idx % 3 &&
-              activeSquare[1] === Math.floor(idx / 3)
-                ? " active"
-                : ""
-            }`}
+          key={idx}
+          className={`square${activeSquare[0] === idx % 3 && activeSquare[1] === Math.floor(idx / 3) ? ' active' : ''}`}
           >
-            {/* // <div key={idx} className={activeSquare ? 'active' : ''} >
-            //   {activeSquare ? 'B' : null } */}
-            {activeSquare[0] === idx % 3 &&
-            activeSquare[1] === Math.floor(idx / 3)
-              ? "B"
-              : null}
+          {activeSquare[0] === idx % 3 && activeSquare[1] === Math.floor(idx / 3) && 'B'}
           </div>
-        ))}
+        )))}
+          
+        
+          
+        
       </div>
       <div className="info">
         <h3 id="message">{message}</h3>
