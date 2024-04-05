@@ -98,14 +98,19 @@ export default function AppFunctional(props) {
       nextY++;
     }
 
-    return{nextX, nextY};
+    return[nextX, nextY];
   }
   function move(direction) {
     // This event handler can use the helper above to obtain a new index for the "B",
     // and change any states accordingly.
     const nextCoordinates = getNextIndex(direction);
-    setActiveSquare(nextCoordinates);
-    setMoves(moves + 1);
+
+    if (Array.isArray(nextCoordinates)) {
+      setActiveSquare(nextCoordinates);
+      setMoves(moves + 1);
+    } else {
+      console.log(nextCoordinates);
+    }
   }
 
   function onChange(evt) {
