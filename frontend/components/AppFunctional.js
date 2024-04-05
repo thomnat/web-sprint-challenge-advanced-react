@@ -43,7 +43,7 @@ export default function AppFunctional(props) {
     setMoves(0);
   }
 
-  function getNextIndex(currentIndex, direction) {
+  function getNextIndex(direction) {
     // This helper takes a direction ("left", "up", etc) and calculates what the next index
     // of the "B" would be. If the move is impossible because we are at the edge of the grid,
     // this helper should return the current index unchanged.
@@ -73,13 +73,12 @@ export default function AppFunctional(props) {
     //0 1 2
     //3 4 5
     //6 7 8
-    let nextIndex = currentIndex;
     let nextX = activeSquare[0];
     let nextY = activeSquare[1];
 
     if (direction === "left") {
       if (nextX === 0) {
-        return "You can't go left"
+        return "You can't go left";
       }
       nextX--;
     } else if (direction === "right") {
@@ -99,16 +98,13 @@ export default function AppFunctional(props) {
       nextY++;
     }
 
-    setActiveSquare([nextX, nextY]);
-    setCurrentIndex(nextIndex);
-
-    return nextIndex;
+    return{nextX, nextY};
   }
   function move(direction) {
     // This event handler can use the helper above to obtain a new index for the "B",
     // and change any states accordingly.
-    const nextIndex = getNextIndex(currentIndex, direction);
-    setCurrentIndex(nextIndex);
+    const nextCoordinates = getNextIndex(direction);
+    setActiveSquare(nextCoordinates);
     setMoves(moves + 1);
   }
 
