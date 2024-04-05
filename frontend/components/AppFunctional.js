@@ -5,7 +5,7 @@ import axios from "axios";
 // Suggested initial states
 const initialMessage = "";
 const initialEmail = "";
-// const initialSteps = 0
+const initialSteps = 0
 const initialIndex = 4; // the index the "B" is at
 
 const URL = "http://localhost:9000/api/result";
@@ -15,102 +15,71 @@ export default function AppFunctional(props) {
   // You can delete them and build your own logic from scratch.
   const [message, setMessage] = useState(initialMessage);
   const [email, setEmail] = useState(initialEmail);
-  // const [steps, setSteps] = useState(initialSteps)
-  const [currentIndex, setCurrentIndex] = useState(initialIndex);
-  const [activeSquare, setActiveSquare] = useState([2, 2]);
-  const [moves, setMoves] = useState(0);
+  const [steps, setSteps] = useState(initialSteps)
+  const [index, setIndex] = useState(initialIndex);
+ 
 
-  // function getXY() {
+  function getXY() {
+    //There are multiples ways of doing the logic for that, but yes. For example: if we are looking for y (which is our row) we can know that it is in the first row if the index number is less than 3 since the top row would be either 0, 1, or 2 for the top row. But that is just one way of doing it.
+    //So gexXY is going to get the coordinates from the index and getXYMessage will get the coordinates it needs to print from the getXY function.
   //   // It it not necessary to have a state to track the coordinates.
   //   // It's enough to know what index the "B" is at, to be able to calculate them.
-
-  // }
+  let xy = [];
+  if (index === 0) {
+    xy = [1, 1];
+  } else if (index === 1) {
+    xy = [1, 2];
+  } else if (index === 2) {
+    xy = [1, 3];
+  } else if (index === 3) {
+    xy = [2, 1];
+  } else if (index === 4) {
+    xy = [2, 2];
+  } else if (index === 5) {
+    xy = [2, 3];
+  } else if (index === 6) {
+    xy = [3, 1];
+  } else if (index === 7) {
+    xy = [3, 2];
+  } else if (index === 8) {
+    xy = [3, 3];
+  }
+   return xy;
+}
 
   function getXYMessage() {
     // It it not necessary to have a state to track the "Coordinates (2, 2)" message for the user.
     // You can use the `getXY` helper above to obtain the coordinates, and then `getXYMessage`
     // returns the fully constructed string.
-    return `You moved ${moves} times`;
+    setMessage("Coordinates", getXY() `You moved ${steps} times`);
+    return message;
   }
 
   function reset() {
     // Use this helper to reset all states to their initial values.
     setMessage(initialMessage);
     setEmail(initialEmail);
-    // setSteps(initialSteps);
-    setCurrentIndex(initialIndex);
-    setActiveSquare([2, 2]);
-    setMoves(0);
+    setSteps(initialSteps);
+    setIndex(initialIndex);
+   
+    
   }
 
   function getNextIndex(direction) {
     // This helper takes a direction ("left", "up", etc) and calculates what the next index
     // of the "B" would be. If the move is impossible because we are at the edge of the grid,
     // this helper should return the current index unchanged.
-    //   const [x, y] = activeSquare;
-    //   let [nextX, nextY] = [x, y];
-    //   switch(direction) {
-    //     case 'left':
-    //       nextX = Math.max(0, x - 1);
-    //       break;
-    //     case 'up':
-    //       nextY = Math.max(0, y - 1);
-    //       break;
-    //     case 'right':
-    //       nextX = Math.min(2, x + 1);
-    //       break;
-    //     case 'down':
-    //       nextY = Math.min(2, y + 1);
-    //       break;
-    //       default:
-    //       break;
-    //   }
-    //   return [nextX, nextY];
-    //   // let left = (x - 1, y);
-    //   // let right = (x + 1, y);
-    //   // let up = (x, y - 1);
-    //   // let down = (x, y + 1);  }
-    //0 1 2
-    //3 4 5
-    //6 7 8
-    let nextX = activeSquare[0];
-    let nextY = activeSquare[1];
-
-    if (direction === "left") {
-      if (nextX === 0) {
-        return "You can't go left";
-      }
-      nextX--;
-    } else if (direction === "right") {
-      if (nextX === 2) {
-        return "You can't go up";
-      }
-      nextX++;
-    } else if (direction === "up") {
-      if (nextY === 0) {
-        return "You can't go up";
-      }
-      nextY--;
-    } else if (direction === "down") {
-      if (nextY === 2) {
-        return "You can't go down";
-      }
-      nextY++;
-    }
-
-    return[nextX, nextY];
+    //Then get next index will decide what number move should be changing the index to.
+    //If it shouldn't go up any higher then getNextIndex doesn't change the current index number otherwise it adjusts it based on the direction you are trying to go.
+    //For example, if you want to move left, that would be one index number lower if you're not at the start of that row already.
+    
   }
+
   function move(direction) {
     // This event handler can use the helper above to obtain a new index for the "B",
     // and change any states accordingly.
-    const nextCoordinates = getNextIndex(direction);
-
-    if (Array.isArray(nextCoordinates)) {
-      setActiveSquare(nextCoordinates);
-      setMoves(moves + 1);
-    } else {
-      console.log(nextCoordinates);
-    }
+    //Then when you go to move, you will need to update index, the number of steps, and the message. That is a good place to have it update "you can't go this direction". and you would interpolate the specific direction
+  
   }
 
   function onChange(evt) {
