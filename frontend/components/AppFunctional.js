@@ -13,7 +13,7 @@ const URL = "http://localhost:9000/api/result";
 export default function AppFunctional(props) {
   // THE FOLLOWING HELPERS ARE JUST RECOMMENDATIONS.
   // You can delete them and build your own logic from scratch.
-  const [message, setMessage] = useState(initialMessage);
+  const [message, setMessage] = useState(initialMessage);//also confused which message i should be using this piece of state for ? 
   const [email, setEmail] = useState(initialEmail);
   const [steps, setSteps] = useState(initialSteps)
   const [index, setIndex] = useState(initialIndex);
@@ -24,27 +24,36 @@ export default function AppFunctional(props) {
     //So gexXY is going to get the coordinates from the index and getXYMessage will get the coordinates it needs to print from the getXY function.
   //   // It it not necessary to have a state to track the coordinates.
   //   // It's enough to know what index the "B" is at, to be able to calculate them.
-  let xy = [];
+  let x, y 
   if (index === 0) {
-    xy = [1, 1];
+    x = 1;
+    y = 1;
   } else if (index === 1) {
-    xy = [1, 2];
+    x = 2;
+    y = 1;
   } else if (index === 2) {
-    xy = [1, 3];
+    x = 3;
+    y = 1;
   } else if (index === 3) {
-    xy = [2, 1];
+    x = 1;
+    y = 2;
   } else if (index === 4) {
-    xy = [2, 2];
+    x = 2;
+    y = 2;
   } else if (index === 5) {
-    xy = [2, 3];
+    x = 3;
+    y = 2;
   } else if (index === 6) {
-    xy = [3, 1];
+    x = 1;
+    y = 3;
   } else if (index === 7) {
-    xy = [3, 2];
+    x = 2;
+    y = 3;
   } else if (index === 8) {
-    xy = [3, 3];
+    x = 3;
+    y = 3;
   }
-   return xy;
+   return [x, y];
 }
 
   function getXYMessage() {
@@ -52,10 +61,10 @@ export default function AppFunctional(props) {
     // You can use the `getXY` helper above to obtain the coordinates, and then `getXYMessage`
     // returns the fully constructed string.
     const [x, y] = getXY(index);
-    return `Coordinates (${x}, ${y}) - You moved ${steps} times`;
+    return `Coordinates (${x}, ${y})`;
   }
 
-  function reset() {
+  function reset() {//this function is working and accurately reseting all the values and the starting square at proper coordinates
     // Use this helper to reset all states to their initial values.
     setMessage(initialMessage);
     setEmail(initialEmail);
@@ -70,19 +79,20 @@ export default function AppFunctional(props) {
     //Then get next index will decide what number move should be changing the index to.
     //If it shouldn't go up any higher then getNextIndex doesn't change the current index number otherwise it adjusts it based on the direction you are trying to go.
     //For example, if you want to move left, that would be one index number lower if you're not at the start of that row already.
-    const [currentX, currentY] = getXY(index);
+
+    const [currentX, currentY] = getXY(index); //this whole function is not moving the squares properly, but the coordinates are correct and displaying correctly
 
     let nextX = currentX;
     let nextY = currentY;
 
-    if (direction === 'left' && currentX > 1) {
-      nextX--;
-    } else if (direction === 'right' && currentX < 3) {
-      nextX++;
-    } else if (direction === 'up' && currentY > 1) {
-      nextY--;
-    } else if (direction === 'down' && currentY < 3) {
-      nextY++;
+    if (direction === 'left') {
+      nextX = Math.max(1, nextX - 1);
+    } else if (direction === 'right') {
+      nextX = Math.min(3, nextX + 1);
+    } else if (direction === 'up') {
+      nextY = Math.max(1, nextY - 1);
+    } else if (direction === 'down') {
+      nextY = Math.min(3, nextY + 1);
     }
 
     let nextIndex = (nextY - 1) * 3 + nextX - 1;
@@ -99,9 +109,9 @@ export default function AppFunctional(props) {
     if (nextIndex != index) {
       setIndex(nextIndex);
       
-      setSteps(steps + 1);
+      setSteps(prevSteps => prevSteps + 1);
 
-      setMessage(`You moved ${steps} times.`);
+      setMessage(`You moved ${steps + 1} times.`);
     } else {
       setMessage(`You can't go ${direction}.`);
     }
@@ -116,7 +126,7 @@ export default function AppFunctional(props) {
   function onSubmit(evt) {
     // Use a POST request to send a payload to the server.
     evt.preventDefault();
-    const emailInput = evt.target.elements.email.value;
+    const emailInput = email;
     const [currentX, currentY] = getXY(index);
     axios
       .post(URL, {
@@ -139,9 +149,9 @@ export default function AppFunctional(props) {
     <div id="wrapper" className={props.className}>
       <div className="info">
         <h3 id="coordinates">
-          {getXYMessage()}
+          Coordinates ({getXY(index)[0]}, {getXY(index)[1]})
         </h3>
-        <h3 id="steps">{message}</h3>
+        <h3 id="steps">You moved {steps} times</h3>
       </div>
       <div id="grid">
         {[0, 1, 2, 3, 4, 5, 6, 7, 8].map((idx => (
@@ -154,7 +164,10 @@ export default function AppFunctional(props) {
         )))}
       </div>
       <div className="info">
-        <h3 id="message">{message}</h3>
+        {message.startsWith("You can't go") ? (
+            <div id="message">{message}</div>//the 'you cant go ____' message isnt applying the message class, & don't understand how to show the number of wins or what even constitutes as a 'win'??? and also how to just display the persons email w/o the @sdmkfmsd part
+        ) : <div>{`${email} won # of times`}</div>} 
+        
       </div>
       <div id="keypad">
         <button id="left" onClick={() => move("left")}>
