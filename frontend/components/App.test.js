@@ -52,7 +52,7 @@ describe("App Functional Component", () => {
     buttonDown = screen.getByText("DOWN");
     buttonRight = screen.getByText("RIGHT");
     buttonReset = screen.getByText("reset");
-    input = screen.getByPlaceHolderText("type email");
+    input = screen.getByPlaceholderText("type email");
     submitBtn = screen.getByText("Submit");
   });
 
