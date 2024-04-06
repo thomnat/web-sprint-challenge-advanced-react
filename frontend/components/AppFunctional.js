@@ -108,13 +108,11 @@ export default function AppFunctional(props) {
 
     if (nextIndex != index) {
       setIndex(nextIndex);
-      
       setSteps(prevSteps => prevSteps + 1);
-
-      setMessage(`You moved ${steps + 1} times.`);
+      setMessage('')
     } else {
       setMessage(`You can't go ${direction}.`);
-    }
+    } 
   }
 
   function onChange(evt) {
