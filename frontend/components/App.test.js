@@ -42,9 +42,7 @@ describe("App Functional Component", () => {
 
     user = userEvent.setup();
 
-    header = screen.getByText((content) => {
-      return content.startsWith('Welcome to the') && content.endsWith("GRID");
-    })
+    header = screen.getByText(/welcome to the.*grid/i);
     coordinatesHeading = screen.getByText(/Coordinates/);
     movesHeading = screen.getByText(/You moved/);
     buttonLeft = screen.getByTestId("LEFT");
