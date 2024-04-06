@@ -149,7 +149,7 @@ export default function AppFunctional(props) {
     <div id="wrapper" className={props.className}>
       <div className="info">
         <h3 id="coordinates">
-          Coordinates ({getXY(index)[0]}, {getXY(index)[1]})
+          {getXYMessage(index)}
         </h3>
         <h3 id="steps">You moved {steps} times</h3>
       </div>
@@ -164,9 +164,8 @@ export default function AppFunctional(props) {
         )))}
       </div>
       <div className="info">
-        {message.startsWith("You can't go") ? (
-            <div id="message">{message}</div>//the 'you cant go ____' message isnt applying the message class, & don't understand how to show the number of wins or what even constitutes as a 'win'??? and also how to just display the persons email w/o the @sdmkfmsd part
-        ) : <div>{`${email} won # of times`}</div>} 
+        
+            <div id="message">{message}</div>
         
       </div>
       <div id="keypad">
