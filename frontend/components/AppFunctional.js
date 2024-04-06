@@ -136,8 +136,8 @@ export default function AppFunctional(props) {
         email: emailInput,
       })
       .then((response) => {
-        console.log(response.data);
-        setMessage(`You moved ${steps} times`);
+        console.log(response);
+        setMessage(response.data.message);
         setEmail("");
       })
       .catch((error) => {
