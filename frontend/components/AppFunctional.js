@@ -111,7 +111,7 @@ export default function AppFunctional(props) {
       setSteps(prevSteps => prevSteps + 1);
       setMessage('')
     } else {
-      setMessage(`You can't go ${direction}.`);
+      setMessage(`You can't go ${direction}`);
     } 
   }
 
