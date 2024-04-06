@@ -42,7 +42,7 @@ describe("App Functional Component", () => {
 
     user = userEvent.setup();
 
-    header = screen.getByText("heading", {name: /Welcome to the GRID/i });
+    header = screen.getByText("Welcome to the GRID");
     coordinatesHeading = screen.getByText(/Coordinates/);
     movesHeading = screen.getByText(/You moved/);
     buttonLeft = screen.getByTestId("LEFT");
@@ -66,7 +66,7 @@ describe("App Functional Component", () => {
     expect(submitBtn).toBeVisible();
   });
 
-  test("typing on the input changes its value", async () => {
+  test("Input acquires the correct value when typed on", async () => {
     await user.type(input, "example@email.com");
     expect(input).toHaveValue("example@email.com");
   });
