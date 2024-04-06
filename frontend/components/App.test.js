@@ -3,7 +3,7 @@ import React from "react";
 import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { server } from "../../backend/mock-server";
+import { setupServer } from "msw/node";
 
 //Test that the visible texts in headings, buttons, links... render on the screen.
 //Test that typing on the input results in its value changing to the entered text.
@@ -14,7 +14,10 @@ import { server } from "../../backend/mock-server";
 // })
 
 describe("App Functional Component", () => {
+  let server;
+
   beforeAll(() => {
+    server = setupServer();
     server.listen();
   });
 
