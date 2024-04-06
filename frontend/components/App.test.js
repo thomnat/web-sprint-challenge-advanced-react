@@ -42,9 +42,7 @@ describe("App Functional Component", () => {
 
     user = userEvent.setup();
 
-    header = screen.getByText((content, element) => {
-      return element.tagName.toLowerCase() === 'h1' && /Welcome to the GRID/i.test(content);
-    });
+    header = screen.getByRole("heading", { level: 1 });
     coordinatesHeading = screen.getByText(/Coordinates/);
     movesHeading = screen.getByText(/You moved/);
     buttonLeft = screen.getByTestId("LEFT");
