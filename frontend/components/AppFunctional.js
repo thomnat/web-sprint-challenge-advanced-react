@@ -7,6 +7,7 @@ const initialMessage = "";
 const initialEmail = "";
 const initialSteps = 0;
 const initialIndex = 4; // the index the "B" is at
+const initialEmailError = "";
 
 const URL = "http://localhost:9000/api/result";
 
@@ -17,6 +18,7 @@ export default function AppFunctional(props) {
   const [email, setEmail] = useState(initialEmail);
   const [steps, setSteps] = useState(initialSteps);
   const [index, setIndex] = useState(initialIndex);
+  const [emailError, setEmailError] = useState(initialEmailError);
 
   function getXY(index) {
     //There are multiples ways of doing the logic for that, but yes. For example: if we are looking for y (which is our row) we can know that it is in the first row if the index number is less than 3 since the top row would be either 0, 1, or 2 for the top row. But that is just one way of doing it.
@@ -70,6 +72,7 @@ export default function AppFunctional(props) {
     setEmail(initialEmail);
     setSteps(initialSteps);
     setIndex(initialIndex);
+    setEmailError(initialEmailError);
   }
 
   function getNextIndex(direction) {
@@ -136,9 +139,11 @@ export default function AppFunctional(props) {
         console.log(response);
         setMessage(response.data.message);
         setEmail("");
+        setEmailError("");
       })
       .catch((error) => {
         console.error("Error:", error);
+        setEmailError(error.response.data.message);
       });
   }
 
@@ -166,7 +171,11 @@ export default function AppFunctional(props) {
         ))}
       </div>
       <div className="info">
+        {emailError ? (
+          <div id="message">{emailError}</div>
+       ) : (
         <div id="message">{message}</div>
+        )}
       </div>
       <div id="keypad">
         <button id="left" onClick={() => move("left")}>
