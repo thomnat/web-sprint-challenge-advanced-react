@@ -53,7 +53,7 @@ describe("App Functional Component", () => {
     buttonRight = screen.getByText("RIGHT");
     buttonReset = screen.getByText("reset");
     input = screen.getByPlaceholderText("type email");
-    submitBtn = screen.getByText("Submit");
+    submitBtn = screen.getByRole("button", { name: "Submit" });
   });
 
   test("all texts are visible", async () => {
