@@ -47,13 +47,13 @@ describe("App Functional Component", () => {
     // header = screen.getByText(/welcome to the.*grid/i);
     coordinatesHeading = screen.getByText(/Coordinates/);
     movesHeading = screen.getByText(/You moved/);
-    buttonLeft = screen.getByTestId("LEFT");
-    buttonUp = screen.getByTestId("UP");
-    buttonDown = screen.getByTestId("DOWN");
-    buttonRight = screen.getByTestId("RIGHT");
-    buttonReset = screen.getByTestId("reset");
+    buttonLeft = screen.getByText("LEFT");
+    buttonUp = screen.getByText("UP");
+    buttonDown = screen.getByText("DOWN");
+    buttonRight = screen.getByText("RIGHT");
+    buttonReset = screen.getByText("reset");
     input = screen.getByPlaceHolderText("type email");
-    submitBtn = screen.getByTestId("Submit");
+    submitBtn = screen.getByText("Submit");
   });
 
   test("all texts are visible", async () => {
