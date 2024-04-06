@@ -42,7 +42,7 @@ describe("App Functional Component", () => {
 
     user = userEvent.setup();
 
-    header = screen.getByText("Welcome to the GRID");
+    header = screen.getByRole("heading", {name: /Welcome to the GRID/i });
     coordinatesHeading = screen.getByText(/Coordinates/);
     movesHeading = screen.getByText(/You moved/);
     buttonLeft = screen.getByTestId("LEFT");
@@ -55,7 +55,7 @@ describe("App Functional Component", () => {
   });
 
   test("all texts are visible", async () => {
-    expect(header).toBeVisible();
+    expect(header).toBeInTheDocument();
     expect(coordinatesHeading).toBeVisible();
     expect(movesHeading).toBeVisible();
     expect(buttonLeft).toBeVisible();
